@@ -1,0 +1,85 @@
+/* Self-hosted font: no request to Google (privacy) and available offline. */
+@import '@fontsource/atkinson-hyperlegible-next/latin-300.css';
+@import '@fontsource/atkinson-hyperlegible-next/latin-400.css';
+@import '@fontsource/atkinson-hyperlegible-next/latin-500.css';
+@import '@fontsource/atkinson-hyperlegible-next/latin-600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Theme "Salbei" (default) */
+    :root {
+        --calm-outer: #1E2723;
+        --calm-bg: #2C3A33;
+        --calm-surface: #36463E;
+        --calm-btn: #435A4E;
+        --calm-circle: #557064;
+        --calm-accent: #8FAE9C;
+        --calm-text: #ECEAE1;
+        --calm-muted: #B9C2B8;
+        --calm-line: rgba(236, 234, 225, .22);
+        --calm-sos: #C9A08A;
+        color-scheme: dark;
+    }
+
+    /* Theme "Nachtblau" */
+    :root[data-theme='nachtblau'] {
+        --calm-outer: #1A2029;
+        --calm-bg: #263040;
+        --calm-surface: #2F3B4C;
+        --calm-btn: #3C4B61;
+        --calm-circle: #4E617E;
+        --calm-accent: #93A6C6;
+        --calm-text: #E8E9EC;
+        --calm-muted: #B6BECB;
+        --calm-line: rgba(232, 233, 236, .22);
+    }
+
+    html,
+    body {
+        background: var(--calm-outer);
+    }
+
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+        color: var(--calm-muted);
+    }
+
+    a:hover {
+        color: var(--calm-text);
+    }
+
+    /* Focus ring only for keyboard users */
+    :focus {
+        outline: none;
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--calm-accent);
+        outline-offset: 4px;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/* Reduced motion: system setting or the user's choice in the settings. */
+@media (prefers-reduced-motion: reduce) {
+    .animate-calm-halo {
+        animation: none !important;
+    }
+}
+
+:root[data-motion='reduced'] .animate-calm-halo {
+    animation: none !important;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}

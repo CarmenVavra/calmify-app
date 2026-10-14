@@ -1,0 +1,15 @@
+{
+    "name": "Calmify",
+    "short_name": "Calmify",
+    "description": "Reizarme Akut-Hilfe bei Panikattacken: Atem-Taktgeber, 5-4-3-2-1-Erdung und SOS-Kontakte.",
+    "lang": "de",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#2C3A33",
+    "theme_color": "#2C3A33",
+    "icons": [
+        { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    ]
+}
