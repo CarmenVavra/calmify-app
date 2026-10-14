@@ -21,7 +21,8 @@ use Livewire\Component;
 class GroundingExercise extends Component
 {
     /**
-     * Logs a completed exercise for signed-in users. Guests stay fully anonymous.
+     * Logs a completed exercise for signed-in users who consented to it.
+     * Guests stay fully anonymous.
      *
      * Renderless: a re-render would morph the DOM while Alpine shows the
      * completion screen.

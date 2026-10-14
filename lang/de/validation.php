@@ -12,6 +12,7 @@ return [
     |
     */
 
+    'accepted' => 'Bitte bestätige „:attribute“.',
     'alpha_dash' => ':Attribute darf nur Buchstaben, Zahlen, Binde- und Unterstriche enthalten.',
     'boolean' => ':Attribute muss wahr oder falsch sein.',
     'confirmed' => ':Attribute und Wiederholung stimmen nicht überein.',
@@ -44,6 +45,8 @@ return [
         'relation' => 'Beziehung',
         'phone_number' => 'Telefonnummer',
         'duration_minutes' => 'Dauer',
+        'age_confirmed' => 'Mindestalter',
+        'health_data_consent' => 'Einwilligung',
     ],
 
 ];

@@ -13,7 +13,9 @@ class RegisteredUserController extends Controller
 {
     public function create(): View
     {
-        return view('auth.register');
+        $minAge = config('calmify.legal.min_age');
+
+        return view('auth.register', compact('minAge'));
     }
 
     /**
@@ -21,7 +23,11 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterRequest $request): RedirectResponse
     {
-        $user = User::create($request->validated());
+        $user = User::create($request->safe()->only(['username', 'password']));
+
+        if ($request->boolean('health_data_consent')) {
+            $user->grantHealthDataConsent();
+        }
 
         Auth::login($user, remember: true);
         $request->session()->regenerate();

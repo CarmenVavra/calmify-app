@@ -43,7 +43,7 @@ class SettingsTest extends TestCase
 
     public function test_users_see_their_account_and_progress(): void
     {
-        $user = User::factory()->create(['username' => 'ruhepol']);
+        $user = User::factory()->withHealthDataConsent()->create(['username' => 'ruhepol']);
         PanicLog::factory()->count(3)->for($user)->create();
 
         $response = $this->actingAs($user)->get(route('settings'));

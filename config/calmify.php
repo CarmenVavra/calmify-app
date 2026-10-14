@@ -70,6 +70,29 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Legal information (Impressum / Datenschutz)
+    |--------------------------------------------------------------------------
+    |
+    | Shown on /impressum, /datenschutz and /ueber. Fill these in via .env
+    | before going online; the bracketed defaults are visible placeholders.
+    | `address` is optional in Austria (§ 25 MedienG: name + place of
+    | residence), but required in Germany (§ 5 DDG: full postal address).
+    |
+    */
+
+    'legal' => [
+        'name' => env('CALMIFY_LEGAL_NAME', '[Vorname Nachname]'),
+        'location' => env('CALMIFY_LEGAL_LOCATION', '[Wohnort], Österreich'),
+        'address' => env('CALMIFY_LEGAL_ADDRESS'),
+        'email' => env('CALMIFY_LEGAL_EMAIL', 'kontakt@example.com'),
+        'hoster' => env('CALMIFY_LEGAL_HOSTER', '[Name und Sitz des Hosting-Anbieters]'),
+        'log_retention_days' => (int) env('CALMIFY_LOG_RETENTION_DAYS', 14),
+        'min_age' => 14,
+        'updated_at' => 'Oktober 2026',
+    ],
+
     'preferences' => [
         'theme' => [
             'legend' => 'Farbschema',

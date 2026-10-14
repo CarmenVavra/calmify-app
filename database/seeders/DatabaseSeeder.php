@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
+        $user = User::factory()->withHealthDataConsent()->create([
             'username' => 'demo',
             'password' => 'calmify-demo',
         ]);

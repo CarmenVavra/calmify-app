@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Calmify – reizarme Akut-Hilfe bei Panikattacken: Atem-Taktgeber, 5-4-3-2-1-Erdung und SOS-Kontakte.">
+    <meta name="description" content="Calmify – eine ruhige Begleitung für schwere Momente: Atem-Taktgeber, 5-4-3-2-1-Übung und SOS-Kontakte.">
     <meta name="theme-color" content="#2C3A33">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -15,7 +15,7 @@
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
 
     {{-- Apply the stored theme before the first paint to avoid a colour flash. --}}
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         try {
             var calmSettings = JSON.parse(localStorage.getItem('calmify.settings') || '{}') || {};
             if (calmSettings.theme === 'nachtblau') document.documentElement.dataset.theme = 'nachtblau';

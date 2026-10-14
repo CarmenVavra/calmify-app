@@ -1,7 +1,7 @@
 {
     "name": "Calmify",
     "short_name": "Calmify",
-    "description": "Reizarme Akut-Hilfe bei Panikattacken: Atem-Taktgeber, 5-4-3-2-1-Erdung und SOS-Kontakte.",
+    "description": "Eine ruhige Begleitung für schwere Momente: Atem-Taktgeber, 5-4-3-2-1-Übung und SOS-Kontakte.",
     "lang": "de",
     "start_url": "/",
     "scope": "/",

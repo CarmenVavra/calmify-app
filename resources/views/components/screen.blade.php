@@ -13,5 +13,9 @@
         @endif
     </div>
 
-    {{ $slot }}
+    <div class="flex flex-1 flex-col gap-7">
+        {{ $slot }}
+    </div>
+
+    <x-legal-links />
 </section>

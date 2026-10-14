@@ -54,6 +54,7 @@
                 Bei akuter Gefahr:
                 <a href="tel:{{ $emergencyNumber }}" class="font-semibold text-calm-text">Notruf {{ $emergencyNumber }}</a>
             </p>
+            <x-medical-notice collapsible :emergency-number="$emergencyNumber" />
             <a href="{{ route('settings') }}" class="px-3 py-3 text-[15px] text-calm-muted underline underline-offset-4">
                 Einstellungen &amp; Konto
             </a>

@@ -31,6 +31,19 @@ class RegisterRequest extends FormRequest
         return [
             'username' => ['required', 'string', 'alpha_dash:ascii', 'min:3', 'max:30', 'unique:users,username'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)],
+            'age_confirmed' => ['accepted'],
+            // Optional and unticked by default: storing exercise logs is health data.
+            'health_data_consent' => ['nullable', 'boolean'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'age_confirmed.accepted' => 'Calmify-Konten sind ab '.config('calmify.legal.min_age').' Jahren möglich. Bitte bestätige dein Alter.',
         ];
     }
 }

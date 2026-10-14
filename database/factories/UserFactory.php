@@ -30,4 +30,14 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+
+    /**
+     * The user consented to storing exercise logs (health data).
+     */
+    public function withHealthDataConsent(): static
+    {
+        return $this->state(fn (): array => [
+            'health_data_consented_at' => now(),
+        ]);
+    }
 }

@@ -57,8 +57,44 @@
             @if ($user)
                 <div class="flex flex-col gap-1 rounded-[24px] bg-calm-surface px-5 py-4">
                     <p class="text-[17px]">Angemeldet als <span class="font-medium">{{ $user->username }}</span></p>
-                    <p class="text-[15px] text-calm-muted">Abgeschlossene Übungen: {{ $completedExercises }}</p>
+                    @if ($user->hasHealthDataConsent())
+                        <p class="text-[15px] text-calm-muted">Abgeschlossene Übungen: {{ $completedExercises }}</p>
+                    @endif
                 </div>
+
+                {{-- Exercise logs are health data: stored only with explicit, revocable consent. --}}
+                <div class="flex flex-col gap-3 rounded-[24px] border-[1.5px] border-calm-line px-5 py-4">
+                    <h2 class="text-[17px] font-medium">Übungsprotokoll</h2>
+
+                    @if ($user->hasHealthDataConsent())
+                        <p class="text-[15px] leading-[1.45] text-calm-muted">
+                            Zeitpunkt und Dauer deiner Übungen werden seit {{ $user->health_data_consented_at->translatedFormat('j. F Y') }} gespeichert.
+                        </p>
+                        <form method="POST"
+                              action="{{ route('consent.destroy') }}"
+                              x-data
+                              x-on:submit="if (! confirm('Einwilligung widerrufen und alle Übungsprotokolle löschen?')) $event.preventDefault()">
+                            @csrf
+                            @method('DELETE')
+                            <x-button type="submit" variant="outline">Einwilligung widerrufen</x-button>
+                        </form>
+                        <p class="text-[15px] leading-[1.45] text-calm-muted">Beim Widerruf werden alle Protokolle sofort gelöscht.</p>
+                    @else
+                        <p class="text-[15px] leading-[1.45] text-calm-muted">
+                            Derzeit wird keine Übung gespeichert. Das ist freiwillig – die App funktioniert genauso.
+                        </p>
+                        <form method="POST" action="{{ route('consent.store') }}" class="flex flex-col gap-4" novalidate>
+                            @csrf
+                            @method('PUT')
+                            <x-form.checkbox name="health_data_consent" bag="healthConsent" required>
+                                {{ __('consent.health_data') }}
+                            </x-form.checkbox>
+                            <x-button type="submit" variant="outline">Übungen speichern</x-button>
+                        </form>
+                    @endif
+                </div>
+
+                <x-button :href="route('account.export')" variant="outline" download>Meine Daten herunterladen</x-button>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -93,6 +129,7 @@
             @else
                 <p class="px-1 text-[17px] leading-[1.45] text-calm-muted">
                     Ohne Konto bleibt alles auf diesem Gerät. Mit einem anonymen Konto kannst du Vertrauenspersonen speichern.
+                    Mehr dazu in der <a href="{{ route('legal.privacy') }}" class="text-calm-text underline underline-offset-4">Datenschutzerklärung</a>.
                 </p>
                 <x-button :href="route('login')">Anmelden</x-button>
                 <x-button :href="route('register')" variant="outline">Anonymes Konto erstellen</x-button>

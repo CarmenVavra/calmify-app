@@ -22,11 +22,50 @@ class AuthenticationTest extends TestCase
             'username' => 'Stiller-Fuchs',
             'password' => 'geheim1234',
             'password_confirmation' => 'geheim1234',
+            'age_confirmed' => '1',
         ]);
 
         $response->assertRedirect(route('sos'));
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', ['username' => 'stiller-fuchs']);
+        $this->assertFalse(User::sole()->hasHealthDataConsent());
+    }
+
+    public function test_registration_records_optional_health_data_consent(): void
+    {
+        $this->post(route('register'), [
+            'username' => 'ruhepol',
+            'password' => 'geheim1234',
+            'password_confirmation' => 'geheim1234',
+            'age_confirmed' => '1',
+            'health_data_consent' => '1',
+        ])->assertRedirect(route('sos'));
+
+        $this->assertTrue(User::sole()->hasHealthDataConsent());
+    }
+
+    public function test_registration_requires_age_confirmation(): void
+    {
+        $this->post(route('register'), [
+            'username' => 'ruhepol',
+            'password' => 'geheim1234',
+            'password_confirmation' => 'geheim1234',
+        ])->assertSessionHasErrors(['age_confirmed']);
+
+        $this->assertGuest();
+        $this->assertDatabaseCount('users', 0);
+    }
+
+    public function test_register_page_explains_consent_and_links_legal_pages(): void
+    {
+        $response = $this->get(route('register'));
+
+        $response->assertSee('name="health_data_consent"', false);
+        $this->assertDoesNotMatchRegularExpression('/name="health_data_consent"[^>]*checked/', $response->getContent());
+        $response->assertSee('Ich bin mindestens 14 Jahre alt.');
+        $response->assertSee('Gesundheitsdaten');
+        $response->assertSee(route('legal.privacy'));
+        $response->assertSee(route('legal.about').'#nutzung');
     }
 
     public function test_registration_validates_input(): void

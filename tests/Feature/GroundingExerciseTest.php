@@ -18,7 +18,7 @@ class GroundingExerciseTest extends TestCase
     public function test_completion_is_logged_for_signed_in_users(): void
     {
         Carbon::setTestNow('2026-10-14 12:00:00');
-        $user = User::factory()->create();
+        $user = User::factory()->withHealthDataConsent()->create();
 
         Livewire::actingAs($user)
             ->test(GroundingExercise::class)
@@ -29,6 +29,18 @@ class GroundingExerciseTest extends TestCase
         $this->assertSame($user->id, $log->user_id);
         $this->assertSame(3, $log->duration_minutes);
         $this->assertTrue($log->triggered_at->equalTo(Carbon::parse('2026-10-14 11:57:00')));
+    }
+
+    public function test_nothing_is_logged_without_health_data_consent(): void
+    {
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(GroundingExercise::class)
+            ->call('complete', 3)
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseCount('panic_logs', 0);
     }
 
     public function test_guests_complete_anonymously_without_a_log(): void
@@ -42,7 +54,7 @@ class GroundingExerciseTest extends TestCase
 
     public function test_duration_is_clamped_to_a_sensible_range(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->withHealthDataConsent()->create();
 
         Livewire::actingAs($user)
             ->test(GroundingExercise::class)
@@ -57,7 +69,7 @@ class GroundingExerciseTest extends TestCase
 
     public function test_non_numeric_duration_is_rejected(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->withHealthDataConsent()->create();
 
         Livewire::actingAs($user)
             ->test(GroundingExercise::class)

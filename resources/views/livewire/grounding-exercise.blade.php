@@ -33,6 +33,11 @@
                 <span>SOS Kontakte</span>
             </a>
         </div>
+
+        <div class="mt-10 flex w-full flex-col items-center gap-2">
+            <x-medical-notice collapsible />
+            <x-legal-links />
+        </div>
     </section>
 
     {{-- 02 Grounding exercise: the whole screen is the tap target ------- --}}

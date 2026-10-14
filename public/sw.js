@@ -2,15 +2,16 @@
  * Calmify service worker: the grounding exercise must start even offline.
  *
  * - Build assets (hashed file names): cache first.
- * - Home page: network first, cached copy as offline fallback.
+ * - Home page and legal pages: network first, cached copy as offline fallback.
  * - Other pages are never cached (they may contain personal contacts);
  *   offline they fall back to the cached home page.
  */
-const CACHE = 'calmify-v1';
+const CACHE = 'calmify-v2';
 const HOME = '/';
+const PUBLIC_PAGES = [HOME, '/ueber', '/impressum', '/datenschutz'];
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(caches.open(CACHE).then((cache) => cache.add(HOME)).then(() => self.skipWaiting()));
+    event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PUBLIC_PAGES)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
@@ -48,14 +49,14 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(
             fetch(request)
                 .then((response) => {
-                    if (response.ok && url.pathname === HOME) {
+                    if (response.ok && PUBLIC_PAGES.includes(url.pathname)) {
                         const copy = response.clone();
-                        caches.open(CACHE).then((cache) => cache.put(HOME, copy));
+                        caches.open(CACHE).then((cache) => cache.put(url.pathname, copy));
                     }
 
                     return response;
                 })
-                .catch(() => caches.match(HOME)),
+                .catch(() => caches.match(PUBLIC_PAGES.includes(url.pathname) ? url.pathname : HOME)),
         );
     }
 });
