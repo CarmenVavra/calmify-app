@@ -7,7 +7,7 @@ cd /d "%~dp0"
 set "PORT=8050"
 
 rem --- Port bereits belegt? ---------------------------------------------
-netstat -ano | findstr /R /C:":%PORT% .*LISTENING" >nul
+netstat -ano | findstr /R /C:":%PORT%  *0\.0\.0\.0:0 " /C:":%PORT%  *\[::\]:0 " >nul
 if %errorlevel%==0 (
     echo Port %PORT% ist bereits belegt. Laeuft Calmify schon? Sonst zuerst stop.bat ausfuehren.
     start "" "http://127.0.0.1:%PORT%"
