@@ -8,4 +8,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        port: 5900,
+        strictPort: true,
+    },
 });
